@@ -236,18 +236,16 @@ local currentImportType = nil
 local isBuilding = false
 local validatedInput = nil
 
-local function updateStatus(status, remaining, total)
-	if remaining and total then
-		local percentage = math.floor((remaining / total) * 100)
-		statusLabel.Text = string.format("Status : %s     Blocks : %d%%", status, percentage)
+local function updateStatus(status, processed, total)
+	if processed and total then
+		statusLabel.Text = string.format("Status : %s     Blocks : %d/%d", status, processed, total)
 	else
-		statusLabel.Text = string.format("Status : %s     Blocks : %%", status)
+		statusLabel.Text = string.format("Status : %s     Blocks : /", status)
 	end
 end
 
 local function onProgressCallback(processed, total)
-	local remaining = total - processed
-	updateStatus("Building", remaining, total)
+	updateStatus("Building", processed, total)
 end
 
 local function normalizeInput(text)
