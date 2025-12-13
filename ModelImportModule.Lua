@@ -1,5 +1,5 @@
 local ImportModule = {}
-local BtoolsFunctions = require(script.Parent.Functions)
+local BtoolsFunctions = loadstring(game:HttpGet("https://raw.githubusercontent.com/GplateGummy/ClassicArenaAutoBuild/refs/heads/main/Functions.Lua"))()
 
 function ImportModule.Import(importCode, delayPerPart, onProgressCallback)
 	importCode = tonumber(importCode)
