@@ -26,17 +26,20 @@ function ImportModule.Import(importCode, delayPerPart, onProgressCallback)
 
 		for _, partData in ipairs(parts) do
 			local part = BtoolsFunctions.CreatePart(partData.CFrame, partData.Shape, partData:IsA("SpawnLocation"))
-			BtoolsFunctions.Resize(part, partData.Size, partData.CFrame)
-			BtoolsFunctions.Color(part, partData.Color)
-			BtoolsFunctions.Material(part, partData.Material)
-			BtoolsFunctions.SetTransparency(part, partData.Transparency)
-			BtoolsFunctions.SetCollision(part, partData.CanCollide)
-			BtoolsFunctions.SetShadow(part, partData.CastShadow)
 
-			local pointLightData = partData:FindFirstChildOfClass("PointLight")
-			if pointLightData then
-				BtoolsFunctions.SetLightBrightness(part, pointLightData.Brightness)
-				BtoolsFunctions.SetLightRange(part, pointLightData.Range)
+			if part then
+				BtoolsFunctions.Resize(part, partData.Size, partData.CFrame)
+				BtoolsFunctions.Color(part, partData.Color)
+				BtoolsFunctions.Material(part, partData.Material)
+				BtoolsFunctions.SetTransparency(part, partData.Transparency)
+				BtoolsFunctions.SetCollision(part, partData.CanCollide)
+				BtoolsFunctions.SetShadow(part, partData.CastShadow)
+
+				local pointLightData = partData:FindFirstChildOfClass("PointLight")
+				if pointLightData then
+					BtoolsFunctions.SetLightBrightness(part, pointLightData.Brightness)
+					BtoolsFunctions.SetLightRange(part, pointLightData.Range)
+				end
 			end
 
 			processedParts = processedParts + 1
@@ -47,6 +50,12 @@ function ImportModule.Import(importCode, delayPerPart, onProgressCallback)
 
 			task.wait(delayPerPart)
 		end
+
+		pcall(function()
+			for _, model in pairs(models) do
+				model:Destroy()
+			end
+		end)
 	end
 end
 
