@@ -345,9 +345,9 @@ buildButton.MouseButton1Click:Connect(function()
 
 	task.spawn(function()
 		if currentImportType == "ModelID" then
-			ModelImportModule.Import(validatedInput, 0.03, onProgressCallback)
+			ModelImportModule.Import(validatedInput, 0.01, onProgressCallback)
 		elseif currentImportType == "F3x" then
-			F3xImportModule.Import(validatedInput, 0.03, onProgressCallback)
+			F3xImportModule.Import(validatedInput, 0.01, onProgressCallback)
 		end
 
 		isBuilding = false
