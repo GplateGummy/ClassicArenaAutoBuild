@@ -2,9 +2,8 @@ local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.IgnoreGuiInset = true
 ScreenGui.Enabled = true
 
-local ModelImportModule = require(script.ModelImportModule)
-local F3xImportModule = require(script.F3xImportModule)
-local Functions = require(script.Functions)
+local ModelImportModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/GplateGummy/ClassicArenaAutoBuild/refs/heads/main/ModelImportModule.Lua"))()
+local F3xImportModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/GplateGummy/ClassicArenaAutoBuild/refs/heads/main/F3xImportModule.Lua"))()
 
 local Frame = Instance.new("Frame")
 Frame.AnchorPoint = Vector2.new(0.5, 0.5)
