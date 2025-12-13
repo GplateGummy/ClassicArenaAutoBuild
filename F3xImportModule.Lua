@@ -169,7 +169,7 @@ local function PreprocessEffects(items)
 end
 
 function ImportModule.Import(importCode, delayPerPart, onProgressCallback)
-	importCode = importCode or "----"
+	importCode = importCode or "aaaa"
 	delayPerPart = delayPerPart or 0.03
 	delayPerPart = math.max(delayPerPart, 0.01)
 
