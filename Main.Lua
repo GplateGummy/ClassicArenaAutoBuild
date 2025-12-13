@@ -14,7 +14,7 @@ Frame.Size = UDim2.new(0.2, 0, 0.4, 0)
 Frame.Interactable = true
 
 pcall(function()
-	require(game:GetObjects(16246094097)[1].new(Frame))
+	require(game:GetObjects("rbxassetid://16246094097")[1].new(Frame))
 end)
 
 local UICorner = Instance.new("UICorner")
