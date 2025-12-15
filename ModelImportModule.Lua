@@ -75,7 +75,7 @@ function ImportModule.Import(importCode, delayPerPart, onProgressCallback)
 		end
 		
 		if materialPart then
-			local dupedPart = BtoolsFunctions.Dupe(materialPart, partData.CFrame)
+			local dupedPart = BtoolsFunctions.Duplicate(materialPart, partData.CFrame)
 			
 			if dupedPart then
 				BtoolsFunctions.Resize(dupedPart, partData.Size, partData.CFrame)
