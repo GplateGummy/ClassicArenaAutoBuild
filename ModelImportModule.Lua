@@ -36,6 +36,7 @@ function ImportModule.Import(importCode, delayPerPart, onProgressCallback)
 	local processedParts = 0
 	
 	local materialParts = {}
+	local uniqueMaterials = {}
 	
 	for _, data in ipairs(partsData) do
 		local partData = data.part
@@ -44,12 +45,14 @@ function ImportModule.Import(importCode, delayPerPart, onProgressCallback)
 			tostring(partData:IsA("SpawnLocation")),
 			tostring(partData.Material)
 		)
-		
-		if not materialParts[materialKey] then
-			local part = BtoolsFunctions.CreatePart(partData.CFrame, partData.Shape, partData:IsA("SpawnLocation"))
-			if part then
-				materialParts[materialKey] = part
-			end
+		uniqueMaterials[materialKey] = partData
+	end
+	
+	for materialKey, partData in pairs(uniqueMaterials) do
+		local part = BtoolsFunctions.CreatePart(partData.CFrame, partData.Shape, partData:IsA("SpawnLocation"))
+		if part then
+			BtoolsFunctions.Material(part, partData.Material)
+			materialParts[materialKey] = part
 		end
 	end
 	
@@ -65,21 +68,27 @@ function ImportModule.Import(importCode, delayPerPart, onProgressCallback)
 		
 		if not materialPart or not materialPart.Parent then
 			materialPart = BtoolsFunctions.CreatePart(partData.CFrame, partData.Shape, partData:IsA("SpawnLocation"))
-			materialParts[materialKey] = materialPart
+			if materialPart then
+				BtoolsFunctions.Material(materialPart, partData.Material)
+				materialParts[materialKey] = materialPart
+			end
 		end
 		
 		if materialPart then
-			BtoolsFunctions.Resize(materialPart, partData.Size, partData.CFrame)
-			BtoolsFunctions.Color(materialPart, partData.Color)
-			BtoolsFunctions.Material(materialPart, partData.Material)
-			BtoolsFunctions.SetTransparency(materialPart, partData.Transparency)
-			BtoolsFunctions.SetCollision(materialPart, partData.CanCollide)
-			BtoolsFunctions.SetShadow(materialPart, partData.CastShadow)
+			local dupedPart = BtoolsFunctions.Dupe(materialPart, partData.CFrame)
 			
-			local pointLightData = partData:FindFirstChildOfClass("PointLight")
-			if pointLightData then
-				BtoolsFunctions.SetLightBrightness(materialPart, pointLightData.Brightness)
-				BtoolsFunctions.SetLightRange(materialPart, pointLightData.Range)
+			if dupedPart then
+				BtoolsFunctions.Resize(dupedPart, partData.Size, partData.CFrame)
+				BtoolsFunctions.Color(dupedPart, partData.Color)
+				BtoolsFunctions.SetTransparency(dupedPart, partData.Transparency)
+				BtoolsFunctions.SetCollision(dupedPart, partData.CanCollide)
+				BtoolsFunctions.SetShadow(dupedPart, partData.CastShadow)
+				
+				local pointLightData = partData:FindFirstChildOfClass("PointLight")
+				if pointLightData then
+					BtoolsFunctions.SetLightBrightness(dupedPart, pointLightData.Brightness)
+					BtoolsFunctions.SetLightRange(dupedPart, pointLightData.Range)
+				end
 			end
 		end
 		
@@ -94,6 +103,14 @@ function ImportModule.Import(importCode, delayPerPart, onProgressCallback)
 	pcall(function()
 		for _, model in pairs(models) do
 			model:Destroy()
+		end
+	end)
+	
+	pcall(function()
+		for _, part in pairs(materialParts) do
+			if part and part.Parent then
+				part:Destroy()
+			end
 		end
 	end)
 end
