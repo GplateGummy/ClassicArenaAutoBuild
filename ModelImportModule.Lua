@@ -59,10 +59,10 @@ function ImportModule.Import(importCode, delayPerPart, onProgressCallback)
 			local partData = data.part
 
 			if i == 1 then
+				templatePartData = partData
 				templatePart = BtoolsFunctions.CreatePart(partData.CFrame, partData.Shape, partData:IsA("SpawnLocation"))
 
 				if templatePart then
-					templatePartData = partData
 					BtoolsFunctions.Resize(templatePart, partData.Size, partData.CFrame)
 					BtoolsFunctions.Color(templatePart, partData.Color)
 					BtoolsFunctions.Material(templatePart, partData.Material)
@@ -77,7 +77,7 @@ function ImportModule.Import(importCode, delayPerPart, onProgressCallback)
 					end
 				end
 			else
-				if not templatePart or not templatePart.Parent then
+				if (not templatePart or not templatePart.Parent) and templatePartData then
 					templatePart = BtoolsFunctions.CreatePart(templatePartData.CFrame, templatePartData.Shape, templatePartData:IsA("SpawnLocation"))
 
 					if templatePart then
